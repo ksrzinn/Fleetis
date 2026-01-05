@@ -12,13 +12,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('regions', function (Blueprint $table) {
+        Schema::create('freight_price_tables', function (Blueprint $table) {
             $table->uuid('id')
                 ->primary()
                 ->default(DB::raw('gen_random_uuid()'));
 
-            $table->string('name');
-            $table->string('uf', 2)->unique();
+            $table->foreignUuid('region_id')
+                ->constrained('regions')
+                ->onDelete('cascade');
+
+            $table->decimal('price_per_km', 10, 2);
 
             $table->timestamps();
             $table->softDeletes();
@@ -30,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('regions');
+        Schema::dropIfExists('freight_price_tables');
     }
 };

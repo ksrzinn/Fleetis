@@ -12,13 +12,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('regions', function (Blueprint $table) {
+        Schema::create('drivers', function (Blueprint $table) {
             $table->uuid('id')
                 ->primary()
                 ->default(DB::raw('gen_random_uuid()'));
 
             $table->string('name');
-            $table->string('uf', 2)->unique();
+            $table->string('cpf', 11)->unique();
+            $table->string('cnh_number', 20)->unique();
+            $table->string('phone')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('regions');
+        Schema::dropIfExists('drivers');
     }
 };
