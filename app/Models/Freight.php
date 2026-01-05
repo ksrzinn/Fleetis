@@ -13,14 +13,15 @@ class Freight extends Model
         'driver_id',
         'vehicle_id',
         'region_id',
-        'type',
-        'total_value',
-        'reference_date',
+        'freight_type',
+        'total_km',
+        'total_price',
+        'closed_at',
     ];
 
     protected $casts = [
-        'total_value' => 'decimal:2',
-        'reference_date' => 'date',
+        'total_price' => 'decimal:2',
+        'closed_at' => 'date',
     ];
 
     public function driver()

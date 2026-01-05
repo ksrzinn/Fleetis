@@ -12,7 +12,6 @@ class FreightKmEntry extends Model
     protected $fillable = [
         'freight_id',
         'km',
-        'notes',
     ];
 
     protected $casts = [
