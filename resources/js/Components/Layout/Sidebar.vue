@@ -1,17 +1,41 @@
+<script setup>
+import SidebarItem from './SidebarItem.vue'
+
+import {
+    LayoutDashboard,
+    Truck,
+    Wallet
+} from 'lucide-vue-next'
+</script>
+
 <template>
-    <aside class="w-64 bg-slate-900 text-slate-100 flex flex-col">
-        <div
-            class="h-16 flex items-center justify-center border-b border-slate-800"
-        >
-            <span class="text-lg font-semibold">Fleetis</span>
-            <!-- logo depois -->
+    <aside
+        class="w-64 min-h-screen px-4 py-6 bg-sidebarBg"
+    >
+        <!-- Header -->
+        <div class="mb-8 text-white text-xl font-semibold">
+            Fleetis
         </div>
 
-        <nav class="flex-1 p-4 space-y-2">
-            <SidebarItem label="Dashboard" to="/dashboard" />
+        <!-- Menu -->
+        <nav class="space-y-1">
+            <SidebarItem
+                label="Dashboard"
+                :icon="LayoutDashboard"
+                href="/dashboard"
+            />
 
-            <SidebarItem label="Fretes & KM" />
-            <SidebarItem label="Financeiro" disabled />
+            <SidebarItem
+                label="Fretes"
+                :icon="Truck"
+                href="/freights"
+            />
+
+            <SidebarItem
+                label="Financeiro"
+                :icon="Wallet"
+                href="/financial"
+            />
         </nav>
     </aside>
 </template>

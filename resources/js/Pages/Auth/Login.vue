@@ -1,12 +1,12 @@
 <script setup>
-import AuthLayout from "@/layouts/AuthLayout.vue";
+import AuthLayout from "@/Layouts/AuthLayout.vue";
 </script>
 
 <template>
     <AuthLayout>
         <div class="bg-white p-8 rounded-lg shadow">
             <h1 class="text-2xl font-semibold text-center mb-6">
-                Acesso ao sistema
+                Login
             </h1>
 
             <form class="space-y-4">

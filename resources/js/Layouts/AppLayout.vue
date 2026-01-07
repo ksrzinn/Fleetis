@@ -1,18 +1,23 @@
 <script setup>
-    import Sidebar from "@/components/layout/Sidebar.vue";
-    import Topbar from "@/components/layout/Topbar.vue";
+
+import Topbar from '../Components/Layout/Topbar.vue';
+import Sidebar from '../Components/Layout/Sidebar.vue';
 </script>
+
 <template>
-    <div class="min-h-screen flex bg-slate-100">
+    <div class="flex h-screen bg-appBg">
+        <!-- Sidebar -->
         <Sidebar />
 
-        <div class="flex-1 flex flex-col">
+        <!-- Main content -->
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <!-- Topbar -->
             <Topbar />
 
-            <main class="p-6">
+            <!-- Page Content -->
+            <main class="flex-1 overflow-y-auto p-6">
                 <slot />
             </main>
         </div>
     </div>
 </template>
-
