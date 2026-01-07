@@ -6,7 +6,14 @@ export default {
         './resources/**/*.js',
     ],
     theme: {
-        extend: {},
+        extend: {
+            colors: {
+                primary: '#2563EB',
+                primarySoft: '#EFF6FF',
+                sidebarBg: '#0F172A',
+                contentBg: '#F8FAFC',
+            }
+        },
     },
     plugins: [],
 };
