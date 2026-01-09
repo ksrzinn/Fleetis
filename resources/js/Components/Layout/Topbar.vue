@@ -1,22 +1,26 @@
 <script setup>
+import { computed } from 'vue'
+import { usePage } from '@inertiajs/inertia-vue3'
+import UserMenu from './UserMenu.vue'
+
+const page = usePage()
+
+const pageTitle = computed(() => {
+    return page.props?.title || 'Dashboard'
+})
 </script>
 
 <template>
-    <header class="h-16 bg-white border-b flex items-center justify-between px-6">
-        <div class="text-sm text-gray-500">
-            <!-- futuramente breadcrumbs -->
+    <header
+        class="h-16 px-6 flex items-center justify-between bg-white border-b"
+        style="border-color: var(--color-border)"
+    >
+        <!-- Left: Page title -->
+        <div class="text-lg font-semibold text-slate-800">
+            {{ pageTitle }}
         </div>
 
-        <div class="flex items-center gap-3">
-            <div class="text-sm text-gray-700">
-                Admin User
-            </div>
-
-            <button
-                class="text-sm text-red-500 hover:underline"
-            >
-                Sair
-            </button>
-        </div>
+        <!-- Right: User -->
+        <UserMenu />
     </header>
 </template>

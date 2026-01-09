@@ -23,7 +23,7 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::group(['middleware' => 'auth'],function (){
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    // Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     /**
      * Módulo de Fretes

@@ -1,33 +1,87 @@
 <script setup>
-import AuthLayout from "@/Layouts/AuthLayout.vue";
+    import AuthLayout from '../../Layouts/AuthLayout.vue'
+    import BaseButton from '../../Components/Base/BaseButton.vue'
 </script>
 
 <template>
     <AuthLayout>
-        <div class="bg-white p-8 rounded-lg shadow">
-            <h1 class="text-2xl font-semibold text-center mb-6">
-                Login
-            </h1>
+        <div class="w-full max-w-sm px-6">
+            <!-- Logo / Title -->
+            <div class="mb-8 text-center">
+                <h1 class="text-3xl font-medium text-slate-900 tracking-tight">
+                    Fleetis
+                </h1>
+                <p class="text-sm text-slate-500 mt-1">
+                    Gestão de frota
+                </p>
+            </div>
 
-            <form class="space-y-4">
-                <input
-                    type="email"
-                    placeholder="E-mail"
-                    class="w-full border rounded px-3 py-2"
-                />
+            <!-- Box -->
+            <div class="bg-white rounded-2xl px-6 py-8 shadow-lg">
+                <form @submit.prevent="submit" class="space-y-5">
+                    <div>
+                        <label class="text-sm text-slate-600">
+                            E-mail
+                        </label>
+                        <input
+                            v-model="form.email"
+                            type="email"
+                            class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        />
+                    </div>
 
-                <input
-                    type="password"
-                    placeholder="Senha"
-                    class="w-full border rounded px-3 py-2"
-                />
+                    <div>
+                        <label class="text-sm text-slate-600">
+                            Senha
+                        </label>
+                        <input
+                            v-model="form.password"
+                            type="password"
+                            class="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        />
+                    </div>
 
-                <button
-                    class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
-                >
-                    Entrar
-                </button>
-            </form>
+                    <BaseButton
+                        type="submit"
+                        :loading="loading"
+                        class="w-full mt-2"
+                    >
+                        Entrar
+                    </BaseButton>
+                </form>
+            </div>
         </div>
     </AuthLayout>
 </template>
+
+<script>
+    export default {
+        name: 'Login',
+
+        components: {
+            AuthLayout,
+            BaseButton,
+        },
+
+        data() {
+            return {
+                form: {
+                    email: '',
+                    password: '',
+                },
+                loading: false,
+            }
+        },
+
+        methods: {
+            submit() {
+                this.loading = true
+
+                setTimeout(() => {
+                    this.loading = false
+                    alert('Auth ainda não implementado')
+                }, 800)
+            },
+        },
+    }
+</script>
