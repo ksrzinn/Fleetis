@@ -10,9 +10,6 @@ const props = defineProps({
 
 const page = usePage()
 
-const isActive = computed(() => {
-    console.log('Current URL:', page)
-})
 </script>
 
 <template>

@@ -22,6 +22,16 @@ Route::get('/login', [LoginController::class, 'index'])->name('login');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+Route::group(['prefix' => 'freights', 'as' => 'freights.'], function () {
+    Route::get('/', [FreightController::class, 'index'])->name('index');
+    Route::get('/store', [FreightController::class, 'store'])->name('store');
+    Route::group(['prefix' => 'fixedFreights', 'as' => 'fixedFreights.'], function () {
+        Route::get('/', [FreightController::class, 'fixedFreightIndex'])->name('index');
+        Route::post('/store', [FreightController::class, 'fixedFreightStore'])->name('store');
+        Route::delete('/destroy/{id}', [FreightController::class, 'fixedFreightDestroy'])->name('destroy');
+    });
+});
+
 Route::group(['middleware' => 'auth'],function (){
     // Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -29,10 +39,6 @@ Route::group(['middleware' => 'auth'],function (){
      * Módulo de Fretes
      */
 
-    Route::group(['prefix' => 'freights', 'as' => 'freights.'], function () {
-        Route::get('/', [FreightController::class, 'index'])->name('index');
-        Route::get('/store', [FreightController::class, 'store'])->name('store');
-    });
 
     /**
      * Módulo financeiro (WIP)

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Domain\Freight\UseCases\RegisterFixedFreightUseCase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use RegisterKmFreightUseCase;
 use StoreFixedFreightRequest;
 use StoreKmFreightRequest;
@@ -27,5 +28,11 @@ class FreightController extends Controller
         return response()->json([
             'data' => $freight
         ], 201);
+    }
+
+
+    public function fixedFreightIndex()
+    {
+        return Inertia::render('Freights/FixedFreights/Index');
     }
 }
