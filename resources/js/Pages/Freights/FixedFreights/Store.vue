@@ -2,6 +2,9 @@
 import BaseModal from '../../../Components/Base/BaseModal.vue'
 import BaseButton from '../../../Components/Base/BaseButton.vue'
 import BaseInput from '../../../Components/Base/BaseInput.vue'
+import axios from 'axios';
+import { route } from 'ziggy-js';
+import BaseSelect from '../../../Components/Base/BaseSelect.vue';
 </script>
 
 <template>
@@ -10,8 +13,16 @@ import BaseInput from '../../../Components/Base/BaseInput.vue'
         :showModal="showModal" @close="close"
     >
         <div class="grid grid-cols-2 gap-4">
-            <BaseInput label="Região" v-model="form.region" type="text" :error="errors?.region"/>
             <BaseInput label="Rota" v-model="form.description" type="text" :error="errors?.description"/>
+            <BaseSelect
+                    v-model="regionId"
+                    label="UF"
+                    placeholder="Selecione o UF"
+                    :options="regions"
+                    option-label="uf"
+                    option-value="id"
+                    searchable
+            />
             <BaseInput label="Valor do Frete" v-model="form.fixed_value" type="text" :error="errors?.fixed_value"/>
             <BaseInput label="Kilomêtros Médio" v-model="form.average_km" type="number" :error="errors?.average_km"/>
         </div>
@@ -54,11 +65,12 @@ import BaseInput from '../../../Components/Base/BaseInput.vue'
             return {
                 form: {
                     id: null,
-                    client: '',
-                    origin: '',
-                    destination: '',
-                    value: '',
+                    description: '',
+                    region: '',
+                    average_km: '',
+                    fixed_value: '',
                 },
+                regions: [],
             }
         },
 
@@ -81,6 +93,10 @@ import BaseInput from '../../../Components/Base/BaseInput.vue'
             },
         },
 
+        mounted() {
+            this.fetchRegions();
+        },
+
         methods: {
             close() {
                 this.$emit('close')
@@ -98,6 +114,16 @@ import BaseInput from '../../../Components/Base/BaseInput.vue'
 
             submit() {
                 console.log(this.form);
+            },
+
+            fetchRegions(){
+                axios.get('/api/regions/getAllRegions')
+                    .then(response => {
+                        this.regions = response.data.data;
+                    })
+                    .catch(error => {
+                        console.error('Error fetching regions:', error);
+                    });
             },
         },
     }

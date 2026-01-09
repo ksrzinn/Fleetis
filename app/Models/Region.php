@@ -11,13 +11,7 @@ class Region extends Model
 
     protected $fillable = [
         'name',
-        'state',
-        'city',
-        'active',
-    ];
-
-    protected $casts = [
-        'active' => 'boolean',
+        'uf'
     ];
 
     public function freightPriceTables()
