@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\HasUuid;
 
-class FreightFixedPriceTable extends Model
+class FreightFixedPrice extends Model
 {
-    use HasUuid;
+    use HasUuids;
 
     protected $fillable = [
         'region_id',
@@ -16,15 +16,24 @@ class FreightFixedPriceTable extends Model
         'average_km',
         'valid_from',
         'valid_until',
+        'active',
     ];
 
     protected $casts = [
         'fixed_value' => 'decimal:2',
+        'average_km' => 'decimal:2',
+        'valid_from' => 'date',
+        'valid_until' => 'date',
         'active' => 'boolean',
     ];
 
     public function region()
     {
         return $this->belongsTo(Region::class);
+    }
+
+    public function freights()
+    {
+        return $this->hasMany(Freight::class);
     }
 }

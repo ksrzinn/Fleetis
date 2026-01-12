@@ -17,35 +17,44 @@ return new class extends Migration
                 ->primary()
                 ->default(DB::raw('gen_random_uuid()'));
 
-            $table->foreignUuid('driver_id')
-                ->constrained('drivers')
-                ->onDelete('cascade');
-
-            $table->foreignUuid('vehicle_id')
+            $table->uuid('vehicle_id')
                 ->constrained('vehicles')
                 ->onDelete('cascade');
 
-            $table->foreignUuid('region_id')
+            $table->uuid('trailer_id')
+                ->nullable()
+                ->constrained('vehicles')
+                ->onDelete('cascade');
+
+
+            $table->uuid('driver_id')
+                ->constrained('drivers')
+                ->onDelete('cascade');
+
+            $table->uuid('region_id')
                 ->constrained('regions')
                 ->onDelete('cascade');
 
-            $table->foreignUuid('freight_fixed_price_table_id')
+            $table->string('freight_type');
+            $table->string('status');
+
+            $table->uuid('freight_fixed_price_id')
                 ->nullable()
-                ->constrained('freight_fixed_price_tables')
+                ->constrained('freight_fixed_prices')
                 ->onDelete('set null');
 
-            $table->string('freight_type');
+            $table->date('date');
 
-            $table->decimal('total_km', 10, 2)->nullable();
-            $table->decimal('total_price', 10, 2)->nullable();
+            $table->integer('km_start');
+            $table->integer('km_end')->nullable();
 
-            $table->timestamp('closed_at')->nullable();
+            // SNAPSHOTS 🔥
+            $table->decimal('fixed_value_snapshot', 10, 2)->nullable();
+            $table->decimal('km_rate_snapshot', 10, 2)->nullable();
+            $table->decimal('total_value', 10, 2)->nullable();
 
             $table->timestamps();
             $table->softDeletes();
-
-            $table->index(['freight_type']);
-            $table->index(['driver_id']);
         });
     }
 

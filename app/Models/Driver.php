@@ -3,24 +3,36 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\HasUuid;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Driver extends Model
 {
-    use HasUuid;
+    use HasUuids;
 
     protected $fillable = [
         'name',
-        'document',
-        'active',
+        'phone',
+        'cpf',
+        'cnh',
+        'cnh_type',
+        'salary',
+        'bonus_type',
+        'bonus_value',
     ];
 
     protected $casts = [
-        'active' => 'boolean',
+        'salary' => 'decimal:2',
+        'bonus_value' => 'decimal:2',
     ];
 
     public function freights()
     {
         return $this->hasMany(Freight::class);
     }
+
+    public function fuelEntries()
+    {
+        return $this->hasMany(FuelEntry::class);
+    }
 }
+

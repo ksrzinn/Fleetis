@@ -12,16 +12,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('drivers', function (Blueprint $table) {
+        Schema::create('km_rates', function (Blueprint $table) {
             $table->uuid('id')
                 ->primary()
                 ->default(DB::raw('gen_random_uuid()'));
 
-            $table->string('name');
-            $table->string('cpf', 11)->unique();
-            $table->string('cnh_number', 20)->unique();
-            $table->string('phone')->nullable();
 
+            $table->uuid('region_id')
+                ->constrained('regions')
+                ->onDelete('cascade');
+
+            $table->decimal('price_per_km', 10, 2);
+            $table->date('valid_from');
+            $table->date('valid_until')->nullable();
+            $table->boolean('active')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('drivers');
+        Schema::dropIfExists('km_rates');
     }
 };

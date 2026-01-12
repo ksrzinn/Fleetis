@@ -3,25 +3,34 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Traits\HasUuid;
+use App\Models\Vehicle;
+use App\Models\KmRate;
+use App\Models\FreightFixedPrice;
+use App\Models\Freight;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Region extends Model
 {
-    use HasUuid;
+    use HasUuids;
 
     protected $fillable = [
         'name',
         'uf'
     ];
 
-    public function freightPriceTables()
+    public function vehicles()
     {
-        return $this->hasMany(FreightPriceTable::class);
+        return $this->hasMany(Vehicle::class, 'base_region_id');
     }
 
-    public function freightFixedPriceTables()
+    public function kmRates()
     {
-        return $this->hasMany(FreightFixedPriceTable::class);
+        return $this->hasMany(KmRate::class);
+    }
+
+    public function freightFixedPrices()
+    {
+        return $this->hasMany(FreightFixedPrice::class);
     }
 
     public function freights()

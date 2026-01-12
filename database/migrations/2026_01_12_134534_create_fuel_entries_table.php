@@ -12,16 +12,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('freight_price_tables', function (Blueprint $table) {
+        Schema::create('fuel_entries', function (Blueprint $table) {
             $table->uuid('id')
                 ->primary()
                 ->default(DB::raw('gen_random_uuid()'));
-
-            $table->foreignUuid('region_id')
+            $table->uuid('vehicle_id')
+                ->constrained('vehicles')
+                ->onDelete('cascade');
+            $table->uuid('driver_id')
+                ->constrained('drivers')
+                ->onDelete('cascade');
+            $table->uuid('region_id')
                 ->constrained('regions')
                 ->onDelete('cascade');
 
-            $table->decimal('price_per_km', 10, 2);
+            $table->decimal('liters', 10, 2);
+            $table->decimal('total_value', 10, 2);
+            $table->string('gas_station')->nullable();
+
+            $table->date('date');
 
             $table->timestamps();
             $table->softDeletes();
@@ -33,6 +42,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('freight_price_tables');
+        Schema::dropIfExists('fuel_entries');
     }
 };

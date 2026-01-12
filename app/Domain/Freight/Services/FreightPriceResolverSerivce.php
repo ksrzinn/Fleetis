@@ -3,7 +3,7 @@
 namespace App\Domain\Freight\Services;
 
 use App\Models\FreightPriceTable;
-use App\Models\FreightFixedPriceTable;
+use App\Models\FreightFixedPrice;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class FreightPriceResolverService
@@ -23,7 +23,7 @@ class FreightPriceResolverService
 
     public function getFixedPrice(string $fixedPriceTableId): float
     {
-        $table = FreightFixedPriceTable::query()
+        $table = FreightFixedPrice::query()
             ->where('id', $fixedPriceTableId)
             ->first();
 

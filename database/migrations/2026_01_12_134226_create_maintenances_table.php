@@ -12,23 +12,26 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('freight_km_entries', function (Blueprint $table) {
+        Schema::create('maintenances', function (Blueprint $table) {
             $table->uuid('id')
                 ->primary()
                 ->default(DB::raw('gen_random_uuid()'));
 
-            $table->foreignUuid('freight_id')
-                ->constrained('freights')
-                ->cascadeOnDelete();
+            $table->uuid('vehicle_id')
+                ->constrained('vehicles')
+                ->onDelete('cascade');
 
-            $table->decimal('km', 10, 2);
-            $table->decimal('price_per_km', 10, 2);
+            $table->uuid('maintenance_type_id')
+                ->constrained('maintenance_types')
+                ->onDelete('cascade');
 
-            $table->timestamp('reported_at');
+            $table->decimal('value', 10, 2);
+            $table->date('date');
+            $table->text('notes')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
 
-            $table->index(['freight_id']);
         });
     }
 
@@ -37,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('freight_km_entries');
+        Schema::dropIfExists('maintenances');
     }
 };
