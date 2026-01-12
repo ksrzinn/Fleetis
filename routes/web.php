@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FixedFreightTableController;
 use App\Http\Controllers\FreightController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
@@ -26,9 +27,7 @@ Route::group(['prefix' => 'freights', 'as' => 'freights.'], function () {
     Route::get('/', [FreightController::class, 'index'])->name('index');
     Route::get('/store', [FreightController::class, 'store'])->name('store');
     Route::group(['prefix' => 'fixedFreights', 'as' => 'fixedFreights.'], function () {
-        Route::get('/', [FreightController::class, 'fixedFreightIndex'])->name('index');
-        Route::post('/store', [FreightController::class, 'fixedFreightStore'])->name('store');
-        Route::delete('/destroy/{id}', [FreightController::class, 'fixedFreightDestroy'])->name('destroy');
+        Route::get('/', [FixedFreightTableController::class, 'fixedFreightTableIndex'])->name('fixedFreightTableIndex');
     });
 });
 

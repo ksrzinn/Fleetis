@@ -40,6 +40,7 @@
         "datatables.net-select": "^1.5.0",
         "datatables.net-vue3": "^2.0.0",
         "date-fns": "^2.30.0",
+        "dayjs": "^1.11.19",
         "devextreme": "23.2",
         "devextreme-vue": "23.2",
         "epic-spinners": "^2.0.0",

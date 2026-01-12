@@ -10,7 +10,7 @@ class RegionController extends Controller
 {
     public function getAllRegions(): JsonResponse
     {
-        $regions = Region::select('uf')->distinct()->orderBy('uf')->get();
+        $regions = Region::select('uf', 'id')->distinct()->orderBy('uf')->get();
 
         return response()->json(['data' => $regions]);
 

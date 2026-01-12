@@ -144,6 +144,7 @@
 
     methods: {
         select(option) {
+            console.log(option)
             this.$emit('update:modelValue', option[this.optionValue]);
             this.search = option[this.optionLabel];
             this.open = false;

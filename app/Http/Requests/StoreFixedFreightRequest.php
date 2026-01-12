@@ -2,6 +2,9 @@
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Esse Request valida os dados para a entrada de um frete realizado com um frete fixo.
+ */
 class StoreFixedFreightRequest extends FormRequest
 {
     public function rules(): array

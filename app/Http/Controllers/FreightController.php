@@ -12,6 +12,10 @@ use StoreKmFreightRequest;
 
 class FreightController extends Controller
 {
+    public function index(){
+        return Inertia::render('Freights/Index');
+    }
+
     public function storeKm(StoreKmFreightRequest $request, RegisterKmFreightUseCase $registerKm): JsonResponse
     {
         $freight = $registerKm->execute($request->validated());
@@ -31,8 +35,5 @@ class FreightController extends Controller
     }
 
 
-    public function fixedFreightIndex()
-    {
-        return Inertia::render('Freights/FixedFreights/Index');
-    }
+
 }

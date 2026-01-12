@@ -26,10 +26,10 @@ import Store from './Store.vue';
                 <table class="w-full text-sm">
                     <thead class="text-slate-500 border-b">
                         <tr>
-                            <th class="text-left p-3">Cliente</th>
-                            <th class="text-left p-3">Origem</th>
-                            <th class="text-left p-3">Destino</th>
-                            <th class="text-right p-3">Valor</th>
+                            <th class="text-center p-3">Rota</th>
+                            <th class="text-center p-3">UF</th>
+                            <th class="text-center p-3">Valor</th>
+                            <th class="text-center p-3">Média de KMs</th>
                             <th class="text-center p-3">Ações</th>
                         </tr>
                     </thead>
@@ -40,26 +40,33 @@ import Store from './Store.vue';
                             :key="freight.id"
                             class="border-b hover:bg-slate-50"
                         >
-                            <td class="p-3">{{ freight.client }}</td>
-                            <td class="p-3">{{ freight.origin }}</td>
-                            <td class="p-3">{{ freight.destination }}</td>
-                            <td class="p-3 text-right">
-                                R$ {{ freight.value }}
-                            </td>
-                            <td class="p-3 text-center space-x-2">
-                                <button
-                                    class="text-blue-600 hover:underline"
-                                    @click="openEdit(freight)"
-                                >
-                                    Editar
-                                </button>
+                            <td class="p-3 text-center">{{ freight.description }}</td>
+                            <td class="p-3 text-center">{{ freight?.region?.uf }}</td>
+                            <td class="p-3 text-center">R$ {{ freight.fixed_value }}</td>
+                            <td class="p-3 text-center">{{ freight.average_km }}</td>
+                            <td class="p-3 ">
+                                <div class="flex items-center justify-center">
 
-                                <button
-                                    class="text-red-600 hover:underline"
-                                    @click="remove(freight.id)"
-                                >
-                                    Excluir
-                                </button>
+                                    <BaseBtn icon rounded
+                                    class="mr-3 text-primary hover:bg-gray-200 dark:hover:bg-foreground"
+                                    @click="openModal(freight)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path
+                                            d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+                                        </svg>
+                                    </BaseBtn>
+                                    <BaseBtn icon rounded
+                                    class="mr-3 text-danger hover:bg-gray-200 dark:hover:bg-foreground"
+                                    @click="deleteData(freight)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                                    fill="currentColor">
+                                    <path fill-rule="evenodd"
+                                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                    clip-rule="evenodd" />
+                                </svg>
+                                </BaseBtn>
+                            </div>
                             </td>
                         </tr>
                     </tbody>
@@ -70,7 +77,7 @@ import Store from './Store.vue';
             <Store
                 :showModal="showModal"
                 :freight="selectedFreight"
-                @saved="reload"
+                @saved="submitFreight"
                 @close="showModal = false"
             />
 
@@ -92,6 +99,7 @@ export default {
             showModal: false,
             showForm: false,
             isEditing: false,
+            freights: this.freights ?? [],
             form: {
                 id: null,
                 client: '',
@@ -101,7 +109,9 @@ export default {
             },
         }
     },
-
+    mounted() {
+        this.fetchFreights();
+    },
     methods: {
         openModal() {
             this.resetForm()
@@ -130,24 +140,34 @@ export default {
             }
         },
 
-        submit() {
-            if (this.isEditing) {
-                Inertia.put(
-                    route('freights.fixed.update', this.form.id),
-                    this.form
-                )
-            } else {
-                Inertia.post(route('freights.fixed.store'), this.form)
-            }
-
-            this.closeForm()
+        async submitFreight(form) {
+            await axios.post('/api/fixedFreights/store', form)
+                .then(() => {
+                    this.fetchFreights();
+                    this.showModal = false
+                    this.reset()
+                })
+                .catch(error => {
+                    console.error('Erro ao salvar o frete fixo:', error);
+                });
         },
 
         remove(id) {
             if (!confirm('Deseja realmente excluir este frete?')) return
 
-            Inertia.delete(route('freights.fixed.destroy', id))
+            // Inertia.delete(route('freights.fixed.destroy', id))
         },
+
+        async fetchFreights() {
+            await axios.get('/api/fixedFreights/getFixedFreights')
+                .then(response => {
+                    this.freights = response.data.data;
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar fretes fixos:', error);
+                });
+        },
+
     },
 }
 </script>

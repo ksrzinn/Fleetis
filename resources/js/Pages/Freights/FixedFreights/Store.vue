@@ -3,8 +3,10 @@ import BaseModal from '../../../Components/Base/BaseModal.vue'
 import BaseButton from '../../../Components/Base/BaseButton.vue'
 import BaseInput from '../../../Components/Base/BaseInput.vue'
 import axios from 'axios';
-import { route } from 'ziggy-js';
 import BaseSelect from '../../../Components/Base/BaseSelect.vue';
+import { route } from 'ziggy-js';
+import dayjs from 'dayjs';
+
 </script>
 
 <template>
@@ -15,7 +17,7 @@ import BaseSelect from '../../../Components/Base/BaseSelect.vue';
         <div class="grid grid-cols-2 gap-4">
             <BaseInput label="Rota" v-model="form.description" type="text" :error="errors?.description"/>
             <BaseSelect
-                    v-model="regionId"
+                    v-model="form.region_id"
                     label="UF"
                     placeholder="Selecione o UF"
                     :options="regions"
@@ -66,9 +68,11 @@ import BaseSelect from '../../../Components/Base/BaseSelect.vue';
                 form: {
                     id: null,
                     description: '',
-                    region: '',
+                    region_id: null,
                     average_km: '',
                     fixed_value: '',
+                    valid_from: dayjs().format('YYYY-MM-DD'),
+                    valid_until: dayjs().add(2, 'year').format('YYYY-MM-DD'),
                 },
                 regions: [],
             }
@@ -80,18 +84,6 @@ import BaseSelect from '../../../Components/Base/BaseSelect.vue';
             },
         },
 
-        watch: {
-            freight: {
-                immediate: true,
-                handler(freight) {
-                    if (freight) {
-                        this.form = { ...freight }
-                    } else {
-                        this.reset()
-                    }
-                },
-            },
-        },
 
         mounted() {
             this.fetchRegions();
@@ -104,16 +96,17 @@ import BaseSelect from '../../../Components/Base/BaseSelect.vue';
 
             reset() {
                 this.form = {
-                    id: null,
-                    client: '',
-                    origin: '',
-                    destination: '',
-                    value: '',
+                    region_id: null,
+                    description: '',
+                    fixed_value: '',
+                    average_km: '',
+                    valid_from: dayjs().format('YYYY-MM-DD'),
+                    valid_until: dayjs().add(2, 'year').format('YYYY-MM-DD'),
                 }
             },
 
             submit() {
-                console.log(this.form);
+                this.$emit('saved', this.form)
             },
 
             fetchRegions(){

@@ -12,12 +12,14 @@ class FreightFixedPriceTable extends Model
     protected $fillable = [
         'region_id',
         'description',
-        'fixed_price',
-        'active',
+        'fixed_value',
+        'average_km',
+        'valid_from',
+        'valid_until',
     ];
 
     protected $casts = [
-        'fixed_price' => 'decimal:2',
+        'fixed_value' => 'decimal:2',
         'active' => 'boolean',
     ];
 
