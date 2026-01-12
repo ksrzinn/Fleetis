@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\DriverBonusType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
@@ -23,6 +24,7 @@ class Driver extends Model
     protected $casts = [
         'salary' => 'decimal:2',
         'bonus_value' => 'decimal:2',
+        'bonus_type' => DriverBonusType::class,
     ];
 
     public function freights()

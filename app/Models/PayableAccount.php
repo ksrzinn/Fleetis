@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\PayableAccountTypes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
@@ -24,5 +25,6 @@ class PayableAccount extends Model
         'due_date' => 'date',
         'installments' => 'integer',
         'is_recurring' => 'boolean',
+        'status' => PayableAccountTypes::class,
     ];
 }

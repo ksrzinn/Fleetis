@@ -6,7 +6,7 @@ class StoreKmFreightRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true; //TODO: verificar com police se o user pode entrar aqui
+        return true; // policy depois
     }
 
     public function rules(): array
@@ -15,7 +15,8 @@ class StoreKmFreightRequest extends FormRequest
             'driver_id' => ['required', 'uuid', 'exists:drivers,id'],
             'vehicle_id' => ['required', 'uuid', 'exists:vehicles,id'],
             'region_id'=> ['required', 'uuid', 'exists:regions,id'],
-            'km' => ['required', 'numeric', 'min:0.1'],
+            'km' => ['required', 'numeric', 'gt:0'],
+            'reference_date' => ['required', 'date'],
         ];
     }
 
@@ -28,8 +29,18 @@ class StoreKmFreightRequest extends FormRequest
             'vehicle_id.exists' => 'O veículo não foi encontrado',
             'region_id.required' => 'A região é obrigatória',
             'region_id.exists' => 'A região não foi encontrada',
-            'km.required' => 'O quilometragem é obrigatório',
-            'km.min' => 'A quilometragem deve ser maior que zero'
+            'km.required' => 'A quilometragem é obrigatória',
+            'km.gt' => 'A quilometragem deve ser maior que zero',
+            'reference_date.required' => 'A data do frete é obrigatória',
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        if ($this->has('km')) {
+            $this->merge([
+                'km' => (float) str_replace(',', '.', $this->km),
+            ]);
+        }
     }
 }

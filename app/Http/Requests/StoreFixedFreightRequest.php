@@ -7,19 +7,27 @@ use Illuminate\Foundation\Http\FormRequest;
  */
 class StoreFixedFreightRequest extends FormRequest
 {
+    public function authorize(): bool
+    {
+        return true; // policy depois
+    }
+
     public function rules(): array
     {
         return [
             'driver_id' => ['required', 'uuid', 'exists:drivers,id'],
             'vehicle_id' => ['required', 'uuid', 'exists:vehicles,id'],
             'region_id' => ['required', 'uuid', 'exists:regions,id'],
-
-            'freight_fixed_price_table_id' => ['required', 'uuid', 'exists:freight_fixed_price_tables,id']
-
+            'freight_fixed_price_table_id' => [
+                'required',
+                'uuid',
+                'exists:freight_fixed_price_tables,id'
+            ],
+            'reference_date' => ['required', 'date'],
         ];
     }
 
-    public function message(): array
+    public function messages(): array
     {
         return [
             'driver_id.required' => 'O motorista é obrigatório',
@@ -29,8 +37,8 @@ class StoreFixedFreightRequest extends FormRequest
             'region_id.required' => 'A região é obrigatória',
             'region_id.exists' => 'A região não foi encontrada',
             'freight_fixed_price_table_id.required' => 'O frete é obrigatório',
-            'freight_fixed_price_table_id.exists' => 'O frete fixo não foi encontrado'
+            'freight_fixed_price_table_id.exists' => 'O frete fixo não foi encontrado',
+            'reference_date.required' => 'A data do frete é obrigatória',
         ];
-
     }
 }

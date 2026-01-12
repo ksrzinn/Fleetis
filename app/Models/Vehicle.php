@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\VehicleStatus;
+use App\Enums\VehicleType;
 use App\Models\Freight;
 use App\Models\FuelEntry;
 use App\Models\Maintenance;
@@ -29,6 +31,8 @@ class Vehicle extends Model
         'year' => 'integer',
         'current_km' => 'integer',
         'oil_change_km' => 'integer',
+        'status' => VehicleStatus::class,
+        'type' => VehicleType::class,
     ];
 
     public function baseRegion()

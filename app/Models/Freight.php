@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\FreightStatus;
+use App\Enums\FreightType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
@@ -15,12 +17,10 @@ class Freight extends Model
         'driver_id',
         'region_id',
         'freight_type',
-        'status',
         'freight_fixed_price_id',
         'date',
         'km_start',
         'km_end',
-        'km_traveled',
         'fixed_value_snapshot',
         'km_rate_snapshot',
         'total_value',
@@ -30,11 +30,52 @@ class Freight extends Model
         'date' => 'date',
         'km_start' => 'integer',
         'km_end' => 'integer',
-        'km_traveled' => 'integer',
         'fixed_value_snapshot' => 'decimal:2',
         'km_rate_snapshot' => 'decimal:2',
         'total_value' => 'decimal:2',
+        'status' => FreightStatus::class,
+        'freight_type' => FreightType::class,
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (Freight $freight) {
+            if (! $freight->status) {
+                $freight->status = FreightStatus::PENDING_KM;
+            }
+        });
+
+        static::saving(function (Freight $freight) {
+            if (
+                $freight->freight_type === FreightType::KM &&
+                $freight->km_start !== null &&
+                $freight->km_end !== null
+            ) {
+                $freight->km_traveled = $freight->km_end - $freight->km_start;
+            }
+        });
+    }
+
+    /* =======================
+    |  Domain helpers
+     ======================= */
+
+    public function closeKmFreight(int $kmEnd): void
+    {
+        $this->km_end = $kmEnd;
+        $this->status = FreightStatus::PENDING_PAYMENT;
+        $this->save();
+    }
+
+    public function closeFixedFreight(): void
+    {
+        $this->status = FreightStatus::PENDING_PAYMENT;
+        $this->save();
+    }
+
+    /* =======================
+    |  Relationships
+     ======================= */
 
     public function vehicle()
     {
@@ -59,5 +100,24 @@ class Freight extends Model
     public function fixedPrice()
     {
         return $this->belongsTo(FreightFixedPrice::class, 'freight_fixed_price_id');
+    }
+
+    /* =======================
+    |  Scopes
+     ======================= */
+
+    public function scopeFixed($query)
+    {
+        return $query->where('freight_type', FreightType::FIXED);
+    }
+
+    public function scopeKm($query)
+    {
+        return $query->where('freight_type', FreightType::KM);
+    }
+
+    public function scopePendingKm($query)
+    {
+        return $query->where('status', FreightStatus::PENDING_KM);
     }
 }
