@@ -15,7 +15,7 @@
 
             <SidebarGroup
                 label="Fretes"
-                :icon="Truck"
+                :icon="Container"
             >
                 <SidebarGroup
                     label="Fretes Fixos"
@@ -46,6 +46,17 @@
                     label="Novo Frete"
                     :icon="Plus"
                     href="/freights/create"
+                />
+            </SidebarGroup>
+
+            <SidebarGroup
+                label="Veículos"
+                :icon="Truck"
+            >
+                <SidebarItem
+                    label="Tipos de veículos"
+                    :icon="List"
+                    href="/vehicle-types"
                 />
             </SidebarGroup>
 
