@@ -5,6 +5,7 @@ use App\Http\Controllers\FixedFreightPriceController;
 use App\Http\Controllers\FreightController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Auth\WebAuthController;
+use App\Http\Controllers\VehicleTypeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -63,6 +64,16 @@ Route::group(['middleware' => 'auth'],function (){
             Route::delete('/destroy/{id}', [FixedFreightPriceController::class, 'fixedFreightDestroy'])->name('fixedFreightDestroy');
             Route::get('/getFixedFreights', [FixedFreightPriceController::class, 'getFixedFreights'])->name('getFixedFreights');
         });
+    });
+
+    /**
+     * Módulo de Tipos de Veículos
+     */
+
+    Route::group(['prefix' => 'vehicleTypes', 'as' => 'vehicleTypes.'], function () {
+        Route::get('/', [VehicleTypeController::class, 'index'])->name('index');
+        Route::post('/store', [VehicleTypeController::class, 'store'])->name('store');
+        Route::get('/fetchVehicleTypes', [VehicleTypeController::class, 'fetchVehicleTypes'])->name('fetchVehicleTypes');
     });
 
     /**

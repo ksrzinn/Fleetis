@@ -56,7 +56,7 @@
                 <SidebarItem
                     label="Tipos de veículos"
                     :icon="List"
-                    href="/vehicle-types"
+                    href="/vehicleTypes"
                 />
             </SidebarGroup>
 

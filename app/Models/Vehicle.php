@@ -18,11 +18,11 @@ class Vehicle extends Model
 
     protected $fillable = [
         'plate',
-        'type',
+        'vehicle_type_id',
         'model',
         'year',
         'current_km',
-        'base_region_id',
+        'region_id',
         'status',
         'oil_change_km',
     ];
@@ -32,7 +32,6 @@ class Vehicle extends Model
         'current_km' => 'integer',
         'oil_change_km' => 'integer',
         'status' => VehicleStatus::class,
-        'type' => VehicleType::class,
     ];
 
     public function baseRegion()
