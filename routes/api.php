@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\ApiAuthController;
 use App\Http\Controllers\FixedFreightPriceController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,15 @@ Route::group(['prefix' => 'fixedFreights', 'as' => 'fixedFreights.'], function (
     Route::delete('/destroy/{id}', [FixedFreightPriceController::class, 'fixedFreightDestroy'])->name('fixedFreightDestroy');
     Route::get('/getFixedFreights', [FixedFreightPriceController::class, 'getFixedFreights'])->name('getFixedFreights');
 });
+
+
+Route::post('/login', [ApiAuthController::class, 'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [ApiAuthController::class, 'logout']);
+
+    Route::get('/me', function () {
+        return request()->user();
+    });
+});
+
