@@ -19,12 +19,12 @@
             >
                 <SidebarGroup
                     label="Fretes Fixos"
-                    :icon="List"
+                    :icon="Container"
                 >
 
                     <SidebarItem
                         label="Valores dos fretes fixos"
-                        :icon="Plus"
+                        :icon="List"
                         href="/freights/fixedFreights/"
                     />
 
@@ -32,11 +32,11 @@
 
                 <SidebarGroup
                     label="Fretes Por KM"
-                    :icon="List"
+                    :icon="Container"
                 >
                     <SidebarItem
                         label="Cadastro de tarifa do KM"
-                        :icon="Plus"
+                        :icon="List"
                         href="/freights/per-km/create"
                     />
 
@@ -68,6 +68,7 @@ import {
     Wallet,
     List,
     Plus,
+    Container
 } from 'lucide-vue-next'
 
 export default {
@@ -85,6 +86,7 @@ export default {
             Wallet,
             List,
             Plus,
+            Container
         }
     },
 }
