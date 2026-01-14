@@ -32,4 +32,9 @@ class WebAuthController extends Controller
 
         return redirect()->route('login');
     }
+
+    public function getAuthenticatedUser(Request $request)
+    {
+        return response()->json(Auth::user());
+    }
 }

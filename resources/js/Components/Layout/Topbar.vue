@@ -21,6 +21,18 @@ const pageTitle = computed(() => {
         </div>
 
         <!-- Right: User -->
-        <UserMenu />
+        <UserMenu :user="user" />
     </header>
 </template>
+
+<script>
+export default {
+    name: 'Topbar',
+    props: {
+        user: {
+            type: Object,
+            required: true
+        }
+    }
+}
+</script>

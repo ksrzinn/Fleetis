@@ -5,10 +5,6 @@ import axios from 'axios';
 
 const open = ref(false)
 
-// mock enquanto auth não existe
-const user = {
-    name: 'Usuário'
-}
 </script>
 
 <template>
@@ -20,11 +16,11 @@ const user = {
             <div
                 class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center text-sm font-semibold"
             >
-                {{ user.name.charAt(0) }}
+                {{ user?.name?.charAt(0) }}
             </div>
 
             <span class="text-sm font-medium text-slate-700">
-                {{ user.name }}
+                {{ user?.name }}
             </span>
 
             <ChevronDown class="w-4 h-4 text-slate-500" />
@@ -55,7 +51,30 @@ const user = {
 <script>
 export default {
     name: 'UserMenu',
+    props: {
+        user: {
+            type: Object,
+            required: true
+        }
+    },
+    data() {
+        return {
+            user: null
+        };
+    },
+    beforeMount() {
+        this.getAuthenticatedUser();
+    },
     methods: {
+        getAuthenticatedUser() {
+            axios.get('/getAuthenticatedUser')
+            .then(response => {
+                this.user = response.data;
+            })
+            .catch(error => {
+                console.error('Erro ao obter o usuário autenticado:', error);
+            });
+        },
         logout() {
             // Lógica de logout aqui
             axios.post('/logout')

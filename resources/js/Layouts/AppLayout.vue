@@ -9,10 +9,22 @@ import Sidebar from '../Components/Layout/Sidebar.vue';
         <Sidebar />
 
         <div class="flex-1 flex flex-col">
-            <Topbar />
+            <Topbar :user="user"/>
             <main class="p-6">
                 <slot />
             </main>
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    name: 'AppLayout',
+    props: {
+        user: {
+            type: Object,
+            required: true
+        }
+    }
+}
+</script>

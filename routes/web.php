@@ -24,6 +24,12 @@ Route::post('/webLogin', [WebAuthController::class, 'login'])->name('webLogin');
 Route::group(['middleware' => 'auth'],function (){
 
     /**
+     * Get Authenticated User Route
+     */
+
+    Route::get('/getAuthenticatedUser', [WebAuthController::class, 'getAuthenticatedUser'])->name('getAuthenticatedUser');
+
+    /**
      * Logout Route
      */
 
