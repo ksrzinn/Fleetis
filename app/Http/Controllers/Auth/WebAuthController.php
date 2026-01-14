@@ -4,33 +4,32 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Auth\Events\Login;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class WebAuthController extends Controller
 {
     public function login(LoginRequest $request)
     {
-        $credentials = $request->only('email', 'password');
-
-        if(! Auth::attempt($credentials)) {
+        if (! Auth::attempt($request->only('email', 'password'))) {
             return back()->withErrors([
-                'email' => 'Credenciais inválidas!',
+                'email' => 'Credenciais inválidas.',
             ]);
         }
 
         $request->session()->regenerate();
 
-        return redirect()->intended('/dashboard');
+        return redirect()->route('dashboard');
     }
 
-    public function logout(){
+    public function logout(Request $request)
+    {
         Auth::logout();
 
-        request()->session()->invalidate();
-        request()->session()->regenerateToken();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect()->route('login');
     }
 }

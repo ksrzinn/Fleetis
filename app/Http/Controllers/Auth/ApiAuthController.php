@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class ApiAuthController extends Controller
 {
     public function login(LoginRequest $request)
@@ -24,7 +25,7 @@ class ApiAuthController extends Controller
         return response()->json([
             'token' => $token,
             'user' => $user,
-        ]);
+        ], 200);
     }
 
     public function logout(Request $request)
@@ -35,5 +36,4 @@ class ApiAuthController extends Controller
             'message' => 'Logout realizado com sucesso!',
         ]);
     }
-
 }

@@ -141,7 +141,7 @@ export default {
         },
 
         async submitFreight(form) {
-            await axios.post('/api/fixedFreights/store', form)
+            await axios.post('/freights/fixedFreights/store', form)
                 .then(() => {
                     this.fetchFreights();
                     this.showModal = false
@@ -159,7 +159,7 @@ export default {
         },
 
         async fetchFreights() {
-            await axios.get('/api/fixedFreights/getFixedFreights')
+            await axios.get('/freights/fixedFreights/getFixedFreights')
                 .then(response => {
                     this.freights = response.data.data;
                 })

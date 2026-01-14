@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FixedFreightPriceController;
 use App\Http\Controllers\FreightController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\Auth\WebAuthController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,29 +16,56 @@ use Inertia\Inertia;
  * Guest Routes
  */
 Route::get('/login', [LoginController::class, 'index'])->name('login');
-
+Route::post('/webLogin', [WebAuthController::class, 'login'])->name('webLogin');
 
 /**
  * Authenticated Routes
  */
-
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-Route::group(['prefix' => 'freights', 'as' => 'freights.'], function () {
-    Route::get('/', [FreightController::class, 'index'])->name('index');
-    Route::get('/store', [FreightController::class, 'store'])->name('store');
-    Route::group(['prefix' => 'fixedFreights', 'as' => 'fixedFreights.'], function () {
-        Route::get('/', [FixedFreightPriceController::class, 'fixedFreightIndex'])->name('fixedFreightIndex');
-    });
-});
-
 Route::group(['middleware' => 'auth'],function (){
-    // Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    /**
+     * Logout Route
+     */
+
+    Route::post('/logout', [WebAuthController::class, 'logout'])->name('web.logout');
+
+    /**
+     * Dashboard Route
+     */
+
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     /**
      * Módulo de Fretes
      */
 
+    Route::group(['prefix' => 'freights', 'as' => 'freights.'], function () {
+        Route::get('/', [FreightController::class, 'index'])->name('index');
+
+        /**
+         * Módulo de lançamento de fretes
+         */
+        Route::post('/storeKm', [FreightController::class, 'storeKm'])->name('storeKm');
+        Route::post('/storeFixed', [FreightController::class, 'storeFixed'])->name('storeFixed');
+
+        /**
+         * Módulos de Fretes Fixos
+         */
+        Route::group(['prefix' => 'fixedFreights', 'as' => 'fixedFreights.'], function () {
+            Route::get('/', [FixedFreightPriceController::class, 'fixedFreightIndex'])->name('fixedFreightIndex');
+            Route::post('/store', [FixedFreightPriceController::class, 'fixedFreightPriceStore'])->name('fixedFreightPriceStore');
+            Route::delete('/destroy/{id}', [FixedFreightPriceController::class, 'fixedFreightDestroy'])->name('fixedFreightDestroy');
+            Route::get('/getFixedFreights', [FixedFreightPriceController::class, 'getFixedFreights'])->name('getFixedFreights');
+        });
+    });
+
+    /**
+     * Módulo de Regiões
+     */
+
+    Route::group(['prefix' => 'regions', 'as' => 'regions.'], function () {
+        Route::get('/getAllRegions', [\App\Http\Controllers\RegionController::class, 'getAllRegions'])->name('getAllRegions');
+    });
 
     /**
      * Módulo financeiro (WIP)

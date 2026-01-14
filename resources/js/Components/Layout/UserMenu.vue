@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { ChevronDown } from 'lucide-vue-next'
+import axios from 'axios';
 
 const open = ref(false)
 
@@ -43,9 +44,31 @@ const user = {
 
             <button
                 class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                @click="logout"
             >
                 Sair
             </button>
         </div>
     </div>
 </template>
+
+<script>
+export default {
+    name: 'UserMenu',
+    methods: {
+        logout() {
+            // Lógica de logout aqui
+            axios.post('/logout')
+                .then(() => {
+                    localStorage.removeItem('auth_token');
+                    axios.defaults.headers.common['Authorization'] = null;
+                    this.$inertia.visit('/login');
+                })
+                .catch((err) => {
+                    console.log(err);
+                    alert('Erro ao fazer logout.');
+                });
+        }
+    }
+}
+</script>

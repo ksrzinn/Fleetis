@@ -110,7 +110,7 @@ import dayjs from 'dayjs';
             },
 
             fetchRegions(){
-                axios.get('/api/regions/getAllRegions')
+                axios.get('/regions/getAllRegions')
                     .then(response => {
                         this.regions = response.data.data;
                     })

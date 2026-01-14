@@ -1,6 +1,7 @@
 <script setup>
     import AuthLayout from '../../Layouts/AuthLayout.vue'
     import BaseButton from '../../Components/Base/BaseButton.vue'
+    import { route } from 'ziggy-js';
 </script>
 
 <template>
@@ -76,11 +77,17 @@
         methods: {
             submit() {
                 this.loading = true
-
-                setTimeout(() => {
-                    this.loading = false
-                    alert('Auth ainda não implementado')
-                }, 800)
+                axios.post('/webLogin', {email: this.form.email, password: this.form.password})
+                    .then((res) => {
+                        this.$inertia.visit('/')
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        alert(err?.response?.data?.message ?? 'Erro ao fazer login. Verifique suas credenciais.')
+                    })
+                    .finally(() => {
+                        this.loading = false
+                    })
             },
         },
     }
