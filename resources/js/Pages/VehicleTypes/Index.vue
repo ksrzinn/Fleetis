@@ -4,6 +4,7 @@
     import BaseButton from '../../Components/Base/BaseButton.vue';
     import BaseCard from '../../Components/Base/BaseCard.vue';
     import Store from './Store.vue';
+import axios from 'axios';
 </script>
 
 <template>
@@ -51,7 +52,7 @@
 
                                     <BaseBtn icon rounded
                                     class="mr-3 text-primary hover:bg-gray-200 dark:hover:bg-foreground"
-                                    @click="openModal(vt)">
+                                    @click="openEdit(vt)">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
                                         fill="currentColor">
                                         <path
@@ -78,8 +79,8 @@
             <!-- Modal / Form -->
             <Store
                 :showModal="showModal"
-                :freight="selectedFreight"
-                @saved="submitFreight"
+                :vehicleType="selectedVt"
+                @saved="submitVehicleType"
                 @close="showModal = false"
             />
 
@@ -101,6 +102,7 @@ export default {
             showModal: false,
             showForm: false,
             isEditing: false,
+            selectedVt: null,
             vehicleTypes: this.vehicleTypes ?? [],
             form: {
                 id: null,
@@ -116,15 +118,15 @@ export default {
         this.fetchVehicleTypes();
     },
     methods: {
-        openModal() {
+        openModal(vt) {
             this.resetForm()
             this.showModal = true
         },
 
         openEdit(vehicleType) {
-            this.form = { ...vehicleType }
+            this.selectedVt = vehicleType
             this.isEditing = true
-            this.showForm = true
+            this.showModal = true
         },
 
         closeForm() {
@@ -144,16 +146,28 @@ export default {
             }
         },
 
-        async submitFreight(form) {
-            await axios.post('vehicleTypes/store', form)
+        async submitVehicleType(form) {
+            if(!form.id){
+                await axios.post('vehicleTypes/store', form)
+                    .then(() => {
+                        this.fetchVehicleTypes();
+                        this.showModal = false
+                        this.resetForm()
+                    })
+                    .catch(error => {
+                        console.error('Erro ao salvar o tipo de veículo:', error);
+                    });
+            } else {
+                await axios.post(`vehicleTypes/update/${form.id}`, form)
                 .then(() => {
-                    this.fetchVehicleTypes();
-                    this.showModal = false
-                    this.resetForm()
-                })
-                .catch(error => {
-                    console.error('Erro ao salvar o frete fixo:', error);
-                });
+                        this.fetchVehicleTypes();
+                        this.showModal = false
+                        this.resetForm()
+                    })
+                    .catch(error => {
+                        console.error('Erro ao salvar o tipo de veículo:', error);
+                    });
+            }
         },
 
         remove(id) {

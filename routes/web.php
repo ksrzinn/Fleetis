@@ -72,8 +72,9 @@ Route::group(['middleware' => 'auth'],function (){
 
     Route::group(['prefix' => 'vehicleTypes', 'as' => 'vehicleTypes.'], function () {
         Route::get('/', [VehicleTypeController::class, 'index'])->name('index');
-        Route::post('/store', [VehicleTypeController::class, 'store'])->name('store');
         Route::get('/fetchVehicleTypes', [VehicleTypeController::class, 'fetchVehicleTypes'])->name('fetchVehicleTypes');
+        Route::post('/store', [VehicleTypeController::class, 'store'])->name('store');
+        Route::post('/update/{id}', [VehicleTypeController::class, 'update'])->name('update');
     });
 
     /**

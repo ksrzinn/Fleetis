@@ -18,8 +18,19 @@ class VehicleTypeController extends Controller
     public function store(StoreVehicleTypeRequest $request):JsonResponse
     {
         try {
-            $vt = VehicleType::updateOrCreate($request->validated());
+            $vt = VehicleType::create($request->validated());
             return response()->json(['data' => $vt], 200);
+        } catch (\Exception $e) {
+            return response()->json(['msg' => $e->getMessage()]);
+        }
+    }
+
+    public function update(StoreVehicleTypeRequest $request, ?string $id = null):JsonResponse
+    {
+        try {
+            $vt = VehicleType::findOrFail($id);
+            $vt->update($request->validated());
+            return response()->json(['msg'=>'Tipo de veículo atualizado com sucesso!', 'data' => $vt], 200);
         } catch (\Exception $e) {
             return response()->json(['msg' => $e->getMessage()]);
         }

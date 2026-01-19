@@ -54,7 +54,7 @@ import { route } from 'ziggy-js';
 
         props: {
             showModal: Boolean,
-            freight: {
+            vehicleType: {
                 type: Object,
                 default: null,
             },
@@ -65,17 +65,38 @@ import { route } from 'ziggy-js';
         data() {
             return {
                 form: {
-                    id: null,
-                    name: null,
-                    type: '',
-                    description: '',
-                    truck_axles: '',
-                    oil_change_km: '',
+                    id: this.vehicleType?.id ?? null,
+                    name: this.vehicleType?.name ?? null,
+                    type: this.vehicleType?.type ?? '',
+                    description: this.vehicleType?.description ?? '',
+                    truck_axles: this.vehicleType?.truck_axles ?? '',
+                    oil_change_km: this.vehicleType?.oil_change_km ?? '',
                 },
                 modalities: [
                     {model: 'Caminhão', type: 'truck'},
                     {model: 'Carreta', type: 'trailer'}
                 ],
+            }
+        },
+
+        watch: {
+            vehicleType: {
+                immediate: true,
+                deep: true,
+                handler(newVal){
+                    if(!newVal) {
+                        this.resetForm();
+                        return;
+                    }
+                    this.form = {
+                        id: newVal.id ?? null,
+                        name: newVal.name ?? '',
+                        type: newVal.type ?? '',
+                        description: newVal.description ?? '',
+                        truck_axles: newVal.truck_axles ?? '',
+                        oil_change_km: newVal.oil_change_km ?? '',
+                    }
+                }
             }
         },
 
@@ -85,24 +106,29 @@ import { route } from 'ziggy-js';
             },
         },
 
+        mounted() {
+            console.log(this.vehicleType);
+        },
+
         methods: {
             close() {
                 this.$emit('close')
             },
 
-            reset() {
-                this.form = {
-                    description: '',
-                    fixed_value: '',
-                    average_km: '',
-                    valid_from: '',
-                    valid_until: '',
-                }
-            },
-
             submit() {
                 this.$emit('saved', this.form)
             },
+
+            resetForm() {
+                this.form = {
+                    id: null,
+                    name: '',
+                    type: '',
+                    description: '',
+                    truck_axles: '',
+                    oil_change_km: '',
+                }
+            }
         },
     }
 </script>

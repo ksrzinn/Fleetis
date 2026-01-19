@@ -12,6 +12,9 @@ class VehicleType extends Model
 
     protected $table = 'vehicle_types';
 
+    protected $keyType = 'string';   // 🔴 ESSENCIAL
+    public $incrementing = false;    // 🔴 ESSENCIAL
+
     protected $fillable = [
         'name',
         'type',
@@ -21,6 +24,7 @@ class VehicleType extends Model
     ];
 
     protected $casts = [
+        'id' => 'string',
         'type' => EnumsVehicleType::class,
         'active' => 'boolean',
         'truck_axles' => 'integer',
