@@ -6,14 +6,14 @@ use App\Enums\VehicleType as EnumsVehicleType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class VehicleType extends Model
+class VehicleType extends BaseModel
 {
     use HasFactory;
 
     protected $table = 'vehicle_types';
 
-    protected $keyType = 'string';   // 🔴 ESSENCIAL
-    public $incrementing = false;    // 🔴 ESSENCIAL
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
         'name',

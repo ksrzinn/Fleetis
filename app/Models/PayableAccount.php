@@ -6,7 +6,7 @@ use App\Enums\PayableAccountTypes;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
-class PayableAccount extends Model
+class PayableAccount extends BaseModel
 {
     use HasUuids;
 

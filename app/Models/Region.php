@@ -9,7 +9,7 @@ use App\Models\FreightFixedPrice;
 use App\Models\Freight;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class Region extends Model
+class Region extends BaseModel
 {
     use HasUuids;
 

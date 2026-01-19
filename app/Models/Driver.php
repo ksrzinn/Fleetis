@@ -6,7 +6,7 @@ use App\Enums\DriverBonusType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class Driver extends Model
+class Driver extends BaseModel
 {
     use HasUuids;
 

@@ -7,7 +7,7 @@ use App\Enums\FreightType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class Freight extends Model
+class Freight extends BaseModel
 {
     use HasUuids;
 

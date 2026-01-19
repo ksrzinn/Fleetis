@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\HasUuid;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
-class FreightKmEntry extends Model
+class FreightKmEntry extends BaseModel
 {
-    use HasUuid;
+    use HasUuids;
 
     protected $fillable = [
         'freight_id',
