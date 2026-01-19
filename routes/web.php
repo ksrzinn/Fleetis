@@ -75,6 +75,7 @@ Route::group(['middleware' => 'auth'],function (){
         Route::get('/fetchVehicleTypes', [VehicleTypeController::class, 'fetchVehicleTypes'])->name('fetchVehicleTypes');
         Route::post('/store', [VehicleTypeController::class, 'store'])->name('store');
         Route::post('/update/{id}', [VehicleTypeController::class, 'update'])->name('update');
+        Route::delete('/destroy/{id}', [VehicleTypeController::class, 'destroy'])->name('destroy');
     });
 
     /**

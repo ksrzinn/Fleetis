@@ -5,6 +5,7 @@
     import BaseCard from '../../Components/Base/BaseCard.vue';
     import Store from './Store.vue';
 import axios from 'axios';
+import BaseConfirmDeleteModal from '../../Components/Base/BaseConfirmDeleteModal.vue';
 </script>
 
 <template>
@@ -61,7 +62,7 @@ import axios from 'axios';
                                     </BaseBtn>
                                     <BaseBtn icon rounded
                                     class="mr-3 text-danger hover:bg-gray-200 dark:hover:bg-foreground"
-                                    @click="deleteData(vt)">
+                                    @click="openDelete(vt)">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
                                     fill="currentColor">
                                     <path fill-rule="evenodd"
@@ -84,6 +85,15 @@ import axios from 'axios';
                 @close="showModal = false"
             />
 
+            <BaseConfirmDeleteModal
+                :show="showDelete"
+                :loading="deleting"
+                title="Excluir tipo de veículo"
+                message="Este tipo de veículo será removido. Deseja continuar?"
+                @confirm="remove"
+                @close="showDeleteModal = false"
+            />
+
         </div>
     </AppLayout>
 </template>
@@ -100,6 +110,8 @@ export default {
     data() {
         return {
             showModal: false,
+            showDelete: false,
+            deletedVt: false,
             showForm: false,
             isEditing: false,
             selectedVt: null,
@@ -170,10 +182,21 @@ export default {
             }
         },
 
-        remove(id) {
-            if (!confirm('Deseja realmente excluir este tipo de veículo?')) return
+        openDelete(vt){
+            this.deletedVt = vt;
+            this.showDelete = true;
+        },
 
-            // Inertia.delete(route('freights.fixed.destroy', id))
+        async remove() {
+            console.log('a')
+            await axios.delete(`/vehicleTypes/destroy/${this.deletedVt?.id}`)
+            .then((res) => {
+                this.fetchVehicleTypes();
+                this.showDelete = false;
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         },
 
         async fetchVehicleTypes() {
