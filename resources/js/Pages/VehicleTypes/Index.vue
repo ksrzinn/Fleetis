@@ -9,7 +9,7 @@ import BaseConfirmDeleteModal from '../../Components/Base/BaseConfirmDeleteModal
 </script>
 
 <template>
-    <AppLayout title="Fretes Tabelados">
+    <AppLayout title="Tipos de veículos">
         <div class="space-y-6">
 
             <!-- Header -->

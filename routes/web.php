@@ -5,6 +5,7 @@ use App\Http\Controllers\FixedFreightPriceController;
 use App\Http\Controllers\FreightController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Auth\WebAuthController;
+use App\Http\Controllers\DriverController;
 use App\Http\Controllers\VehicleTypeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -76,6 +77,18 @@ Route::group(['middleware' => 'auth'],function (){
         Route::post('/store', [VehicleTypeController::class, 'store'])->name('store');
         Route::post('/update/{id}', [VehicleTypeController::class, 'update'])->name('update');
         Route::delete('/destroy/{id}', [VehicleTypeController::class, 'destroy'])->name('destroy');
+    });
+
+    /**
+     * Módulo de Motoristas
+     */
+
+    Route::group(['prefix' => 'drivers', 'as' => 'drivers.'], function (){
+        Route::get('/', [DriverController::class, 'index'])->name('index');
+        Route::get('/fetchDrivers', [DriverController::class, 'fetchDrivers'])->name('fetchDrivers');
+        Route::post('/store', [DriverController::class, 'store'])->name('store');
+        Route::post('/update/{id}', [DriverController::class, 'update'])->name('update');
+        Route::delete('/destroy/{id}', [DriverController::class, 'destroy'])->name('destroy');
     });
 
     /**

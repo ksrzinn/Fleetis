@@ -27,6 +27,14 @@ class Driver extends BaseModel
         'bonus_type' => DriverBonusType::class,
     ];
 
+    protected $appends = [
+        'bonus_type_label'
+    ];
+
+    /**
+     * Relationships
+     */
+
     public function freights()
     {
         return $this->hasMany(Freight::class);
@@ -35,6 +43,15 @@ class Driver extends BaseModel
     public function fuelEntries()
     {
         return $this->hasMany(FuelEntry::class);
+    }
+
+    /**
+     * Accessors
+     */
+
+    public function getBonusTypeLabelAttribute(): string
+    {
+        return $this->bonus_type?->label() ?? '';
     }
 }
 

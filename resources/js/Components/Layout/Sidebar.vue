@@ -61,6 +61,12 @@
             </SidebarGroup>
 
             <SidebarItem
+                label="Motoristas"
+                :icon="List"
+                href="/drivers"
+            />
+
+            <SidebarItem
                 label="Financeiro"
                 :icon="Wallet"
                 href="/financial"

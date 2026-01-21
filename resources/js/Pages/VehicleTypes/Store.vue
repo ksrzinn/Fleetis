@@ -44,7 +44,7 @@ import { route } from 'ziggy-js';
 
 <script>
     export default {
-        name: 'FixedFreightStore',
+        name: 'VehicleTypeStore',
 
         components: {
             BaseModal,
