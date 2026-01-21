@@ -171,7 +171,7 @@ export default {
         },
 
         async submitDriver(form) {
-            this.normalizeData();
+            this.normalizeData(form);
             if(!form.id){
                 await axios.post('drivers/store', form)
                     .then(() => {
@@ -194,10 +194,10 @@ export default {
                     });
             }
         },
-        normalizeData(){
-            this.form.cpf = this?.form?.cpf?.replace(/\D/g, '').slice(0, 11);
-            this.form.phone = this.form?.phone?.replace(/\D/g, '').slice(0,11);
-            this.form.cnh = this?.form?.cnh?.replace(/\D/g, '').slice(0,11);
+        normalizeData(form){
+            form.cpf = form?.cpf?.replace(/\D/g, '').slice(0, 11);
+            form.phone = form?.phone?.replace(/\D/g, '').slice(0,11);
+            form.cnh = form?.cnh?.replace(/\D/g, '').slice(0,11);
         },
         openDelete(dr){
             this.deletedDriver = dr;

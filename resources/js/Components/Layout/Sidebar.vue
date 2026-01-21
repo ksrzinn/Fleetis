@@ -59,12 +59,34 @@
                     href="/vehicleTypes"
                 />
             </SidebarGroup>
+            <!-- SVG manual de motorista -->
+            <a href="/drivers"class="flex items-center gap-3 px-3 py-2 rounded-lg text-sidebarText hover:bg-sidebarHover transition">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    >
+                    <!-- Cabeça -->
+                    <circle cx="9" cy="7" r="3" />
 
-            <SidebarItem
-                label="Motoristas"
-                :icon="List"
-                href="/drivers"
-            />
+                    <!-- Corpo -->
+                    <path d="M3 21v-1a6 6 0 0 1 12 0v1" />
+
+                    <!-- Volante -->
+                    <circle cx="17" cy="15" r="4" />
+                    <path d="M17 13v2" />
+                    <path d="M15.3 16l1.7-1" />
+                    <path d="M18.7 16l-1.7-1" />
+                </svg>
+
+                <span>Motoristas</span>
+            </a>
 
             <SidebarItem
                 label="Financeiro"
