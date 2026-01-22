@@ -3,14 +3,15 @@
 namespace App\Models;
 
 use App\Enums\VehicleStatus;
-use App\Enums\VehicleType;
 use App\Models\Freight;
 use App\Models\FuelEntry;
 use App\Models\Maintenance;
 use App\Models\Region;
 use App\Models\Tire;
+use App\Models\VehicleType;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Vehicle extends BaseModel
 {
@@ -34,9 +35,13 @@ class Vehicle extends BaseModel
         'status' => VehicleStatus::class,
     ];
 
+    protected $appends =[
+        'status_label'
+    ];
+
     public function baseRegion()
     {
-        return $this->belongsTo(Region::class, 'base_region_id');
+        return $this->belongsTo(Region::class, 'region_id');
     }
 
     public function freights()
@@ -62,6 +67,20 @@ class Vehicle extends BaseModel
     public function fuelEntries()
     {
         return $this->hasMany(FuelEntry::class);
+    }
+
+    public function vehicleType()
+    {
+        return $this->belongsTo(VehicleType::class, 'vehicle_type_id');
+    }
+
+    /**
+     * Accessors
+     */
+
+    public function getStatusLabelAttribute(): String
+    {
+        return $this->status?->label() ?? '';
     }
 }
 

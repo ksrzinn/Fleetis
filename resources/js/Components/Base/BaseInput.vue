@@ -10,6 +10,7 @@
         <input
             :type="type"
             :value="modelValue"
+            :maxlength="maxlength"
             :placeholder="placeholder"
             :disabled="disabled"
             :readonly="readonly"
@@ -34,6 +35,10 @@ export default {
         modelValue: {
             type: [String, Number],
             default: '',
+        },
+        maxlength: {
+            type: [String, Number],
+            default: null,
         },
 
         label: {

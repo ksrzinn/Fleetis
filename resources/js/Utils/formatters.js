@@ -170,3 +170,14 @@ export function formatCnhType(value) {
         .replace(/[^a-zA-Z0-9]/g, '')
         .toUpperCase()
 }
+
+export function formatPlate(value) {
+    if (!value) return ''
+
+    return value
+        .toString()
+        .toUpperCase()
+        .replace(/[^A-Z0-9]/g, '')
+        .slice(0, 7)
+}
+

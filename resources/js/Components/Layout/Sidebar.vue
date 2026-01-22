@@ -58,6 +58,11 @@
                     :icon="List"
                     href="/vehicleTypes"
                 />
+                <SidebarItem
+                    label="Cadastro de veículos"
+                    :icon="List"
+                    href="/vehicles"
+                />
             </SidebarGroup>
             <!-- SVG manual de motorista -->
             <a href="/drivers"class="flex items-center gap-3 px-3 py-2 rounded-lg text-sidebarText hover:bg-sidebarHover transition">
