@@ -1,13 +1,14 @@
 <script setup>
     import AuthLayout from '../../Layouts/AuthLayout.vue'
     import BaseButton from '../../Components/Base/BaseButton.vue'
+    import FleetisLogo from '../../Assets/Logos/Fleetis/svg/logoteste.svg?component'
     import { route } from 'ziggy-js';
 </script>
 
 <template>
     <AuthLayout>
         <div class="w-full max-w-sm px-6">
-            <!-- Logo / Title -->
+            <FleetisLogo class="w-8 h-8 text-primary" />
             <div class="mb-8 text-center">
                 <h1 class="text-3xl font-medium text-slate-900 tracking-tight">
                     Fleetis
