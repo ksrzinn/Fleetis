@@ -12,6 +12,7 @@ class KmRate extends BaseModel
     protected $fillable = [
         'region_id',
         'price_per_km',
+        'vehicle_type_id',
         'valid_from',
         'valid_until',
         'active',
@@ -27,6 +28,11 @@ class KmRate extends BaseModel
     public function region()
     {
         return $this->belongsTo(Region::class);
+    }
+
+    public function vehicleType()
+    {
+        return $this->belongsTo(VehicleType::class);
     }
 }
 

@@ -99,7 +99,7 @@
                 title="Excluir veículo"
                 message="Este veículo será removido. Deseja continuar?"
                 @confirm="remove"
-                @close="showDeleteModal = false"
+                @close="showDelete = false"
             />
 
         </div>

@@ -6,8 +6,10 @@ use App\Http\Controllers\FreightController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Auth\WebAuthController;
 use App\Http\Controllers\DriverController;
+use App\Http\Controllers\KmRateController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\VehicleTypeController;
+use App\Models\KmRate;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -66,6 +68,17 @@ Route::group(['middleware' => 'auth'],function (){
             Route::delete('/destroy/{id}', [FixedFreightPriceController::class, 'fixedFreightDestroy'])->name('fixedFreightDestroy');
             Route::get('/getFixedFreights', [FixedFreightPriceController::class, 'getFixedFreights'])->name('getFixedFreights');
         });
+    });
+
+    /**
+     * Módulo de Taxa por Km
+     */
+    Route::group(['prefix' => 'kmRates', 'as' => 'kmRates.'], function (){
+        Route::get('/', [KmRateController::class, 'index'])->name('index');
+        Route::get('/fetchKmRates', [KmRateController::class, 'fetchKmRates'])->name('fetchKmRates');
+        Route::post('/store', [KmRateController::class, 'store'])->name('store');
+        Route::post('/update/{id}', [KmRateController::class, 'update'])->name('update');
+        Route::delete('/destroy/{rate}', [KmRateController::class, 'destroy'])->name('destroy');
     });
 
     /**

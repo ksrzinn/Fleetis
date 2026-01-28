@@ -35,9 +35,9 @@
                     :icon="Container"
                 >
                     <SidebarItem
-                        label="Cadastro de tarifa do KM"
+                        label="Cadastro de tarifa por região"
                         :icon="List"
-                        href="/freights/per-km/create"
+                        href="/kmRates/"
                     />
 
                 </SidebarGroup>
