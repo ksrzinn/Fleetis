@@ -56,8 +56,10 @@ Route::group(['middleware' => 'auth'],function (){
         /**
          * Módulo de lançamento de fretes
          */
-        Route::post('/storeKm', [FreightController::class, 'storeKm'])->name('storeKm');
-        Route::post('/storeFixed', [FreightController::class, 'storeFixed'])->name('storeFixed');
+        Route::post('/fixed', [FreightController::class, 'storeFixed'])->name('storeFixed');
+        Route::put('/fixed/{freight}', [FreightController::class, 'updateFixed'])->name('updateFixed');
+        Route::delete('/{freight}', [FreightController::class, 'destroy'])->name('destroy');
+        Route::get('/fetchFreights', [FreightController::class, 'fetchFreights'])->name('fetchFreights');
 
         /**
          * Módulos de Fretes Fixos

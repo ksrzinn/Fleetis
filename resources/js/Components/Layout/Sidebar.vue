@@ -43,9 +43,9 @@
                 </SidebarGroup>
 
                 <SidebarItem
-                    label="Novo Frete"
-                    :icon="Plus"
-                    href="/freights/create"
+                    label="Lançamento de fretes"
+                    :icon="List"
+                    href="/freights"
                 />
             </SidebarGroup>
 

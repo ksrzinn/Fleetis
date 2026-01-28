@@ -24,6 +24,7 @@ class Freight extends BaseModel
         'fixed_value_snapshot',
         'km_rate_snapshot',
         'total_value',
+        'status'
     ];
 
     protected $casts = [
@@ -37,11 +38,16 @@ class Freight extends BaseModel
         'freight_type' => FreightType::class,
     ];
 
+    protected $appends = [
+        'status_label',
+        'freight_type_label'
+    ];
+
     protected static function booted(): void
     {
         static::creating(function (Freight $freight) {
             if (! $freight->status) {
-                $freight->status = FreightStatus::PENDING_KM;
+                $freight->status = FreightStatus::CLOSED;
             }
         });
 
@@ -51,7 +57,8 @@ class Freight extends BaseModel
                 $freight->km_start !== null &&
                 $freight->km_end !== null
             ) {
-                $freight->km_traveled = $freight->km_end - $freight->km_start;
+                // $freight->km_traveled = $freight->km_end - $freight->km_start;
+                return;
             }
         });
     }
@@ -119,5 +126,19 @@ class Freight extends BaseModel
     public function scopePendingKm($query)
     {
         return $query->where('status', FreightStatus::PENDING_KM);
+    }
+
+    /**
+     * Accessors
+     */
+
+    public function getFreightTypeLabelAttribute(): string
+    {
+        return $this->freight_type?->label() ?? '';
+    }
+
+    public function getStatusLabelAttribute(): string
+    {
+        return $this->status?->label() ?? '';
     }
 }

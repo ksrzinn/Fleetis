@@ -136,8 +136,6 @@ export default {
 
         openEdit(kmr) {
             this.selectedKm = kmr
-            console.log(this.selectedKm)
-            console.log(kmr)
             this.isEditing = true
             this.showModal = true
         },
@@ -172,7 +170,7 @@ export default {
                 this.showDelete = false;
             })
             .catch((err) => {
-                console.log(err)
+                console.error(err)
             })
         },
 

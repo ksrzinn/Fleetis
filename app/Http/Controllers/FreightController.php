@@ -2,38 +2,74 @@
 
 namespace App\Http\Controllers;
 
-use App\Domain\Freight\UseCases\RegisterFixedFreightUseCase;
+use App\Domain\Freight\Services\FixedFreightService;
+use App\Http\Requests\Freight\StoreFixedFreightRequest;
+use App\Http\Requests\Freight\UpdateFixedFreightRequest;
+use App\Models\Freight;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
-use RegisterKmFreightUseCase;
-use StoreFixedFreightRequest;
-use StoreKmFreightRequest;
 
 class FreightController extends Controller
 {
-    public function index(){
+    public function __construct(
+        protected FixedFreightService $fixedFreightService
+    ) {}
+
+    public function index()
+    {
         return Inertia::render('Freights/Index');
     }
 
-    public function storeKm(StoreKmFreightRequest $request, RegisterKmFreightUseCase $registerKm): JsonResponse
+    public function fetchFreights(): JsonResponse
     {
-        $freight = $registerKm->execute($request->validated());
+        $freights = Freight::fixed()
+            ->with(
+                [
+                    'vehicle',
+                    'driver',
+                    'region',
+                    'fixedPrice',
+                ]
+            )
+            ->latest()
+            ->get();
+
+        return response()->json($freights);
+    }
+
+    public function storeFixed(StoreFixedFreightRequest $request): JsonResponse
+    {
+        $freight = $this->fixedFreightService->store(
+            $request->validated()
+        );
+
         return response()->json([
-            'data' => $freight
+            'message' => 'Frete fixo lançado com sucesso.',
+            'data' => $freight,
         ], 201);
     }
 
-    public function storeFixed(
-        StoreFixedFreightRequest $request,
-        RegisterFixedFreightUseCase $registerFixed
+    public function updateFixed(
+        UpdateFixedFreightRequest $request,
+        Freight $freight
     ): JsonResponse {
-        $freight = $registerFixed->execute($request->validated());
+        $freight = $this->fixedFreightService->update(
+            $freight,
+            $request->validated()
+        );
+
         return response()->json([
-            'data' => $freight
-        ], 201);
+            'message' => 'Frete fixo atualizado com sucesso.',
+            'data' => $freight,
+        ]);
     }
 
+    public function destroy(Freight $freight): JsonResponse
+    {
+        $freight->delete();
 
-
+        return response()->json([
+            'message' => 'Frete removido com sucesso.',
+        ]);
+    }
 }
